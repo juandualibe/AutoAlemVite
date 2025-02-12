@@ -14,16 +14,19 @@ export default function Vehiculos() {
     concesionaria_id: 1, // Asegúrate de que esta concesionaria existe
   });
 
+  // Obtener la URL base desde las variables de entorno
+  const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/vehiculos")
+      .get(`${API_URL}/api/vehiculos`)
       .then((response) => {
         setVehiculos(response.data);
       })
       .catch((error) => {
         console.error("Hubo un error al obtener los vehículos:", error);
       });
-  }, []);
+  }, [API_URL]);
 
   const handleChange = (e) => {
     setNuevoVehiculo({
@@ -35,7 +38,7 @@ export default function Vehiculos() {
   const agregarVehiculo = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/api/vehiculos", nuevoVehiculo)
+      .post(`${API_URL}/api/vehiculos`, nuevoVehiculo)
       .then((response) => {
         setVehiculos([...vehiculos, response.data]); // Agregar el nuevo vehículo a la lista
         setNuevoVehiculo({
